@@ -41,3 +41,37 @@ Just upload your resume in pdf format, and see for yourself :)
     ```
     
 Overall, the development of a resume parser app using Flask represents a significant advancement in leveraging technology to support job seekers in optimizing their resumes for the modern recruitment landscape. This app aligns with the increasing demand for efficient and technology-driven solutions in the job application process, ultimately benefiting both job seekers and recruiters.
+
+## ATS Score Checker
+
+The project now includes an ATS (Applicant Tracking System) score checker using Google's Gemini API. This feature analyzes resumes and provides:
+- An ATS compatibility score (0-100)
+- Detailed feedback on what's good and what needs improvement
+- Specific suggestions for optimization
+
+### Using the ATS Score Checker
+
+1. Make sure you have set up your Gemini API key in the `.env` file:
+```
+GEMINI_API_KEY=your_api_key_here
+```
+
+2. You can use the ATS score checker in two ways:
+
+   a. As a standalone script:
+   ```bash
+   python ats_score_checker.py
+   ```
+   The script will prompt you to paste your resume text. After pasting, press:
+   - `Ctrl+D` (Unix/Mac) or
+   - `Ctrl+Z` followed by Enter (Windows)
+
+   b. Import and use in your code:
+   ```python
+   from ats_score_checker import get_ats_score
+   
+   result = get_ats_score(resume_text)
+   print(result)
+   ```
+
+You can get a Gemini API key from: https://makersuite.google.com/app/apikey
