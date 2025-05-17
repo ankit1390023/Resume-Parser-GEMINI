@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: resume-parser-gemini
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_APP
+        value: app.py 
