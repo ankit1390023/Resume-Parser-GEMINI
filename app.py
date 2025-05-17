@@ -23,8 +23,8 @@ CORS(app, resources={
         "origins": [
             "http://localhost:5173",
             "http://127.0.0.1:5173",
-            "https://*.vercel.app",  # Allow all Vercel deployments
-            "https://resume-parser-gemini.vercel.app"  # Your specific Vercel domain
+            "https://resume-parser-gemini-82e7.onrender.com",
+            "https://workify-frontend.vercel.app"
         ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"]
