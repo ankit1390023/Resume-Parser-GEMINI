@@ -20,7 +20,12 @@ app = Flask(__name__)
 # Configure CORS to allow requests from the frontend
 CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],  # Vite's default ports
+        "origins": [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "https://*.vercel.app",  # Allow all Vercel deployments
+            "https://resume-parser-gemini.vercel.app"  # Your specific Vercel domain
+        ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"]
     }
