@@ -39,44 +39,6 @@ ALLOWED_EXTENSIONS = {'pdf'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def extract_ats_score(analysis_text):
-    """Extract the ATS score from the analysis text."""
-    try:
-        # Look for the overall score line
-        score_match = re.search(r'Overall ATS Score:\s*(\d+)', analysis_text)
-        if score_match:
-            return int(score_match.group(1))
-        
-        # Fallback: try to find any number between 0-100 that appears to be a score
-        score_match = re.search(r'(\d+)\s*out of\s*100', analysis_text)
-        if score_match:
-            return int(score_match.group(1))
-        
-        return 0
-    except:
-        return 0
-
-def extract_suggestions(analysis_text):
-    """Extract improvement suggestions from the analysis text."""
-    suggestions = []
-    try:
-        # Look for sections that contain suggestions
-        suggestion_sections = re.findall(r'(?:Suggestion|Recommendation|Improvement)[^:]*:(.*?)(?=\n\n|\Z)', analysis_text, re.DOTALL | re.IGNORECASE)
-        
-        for section in suggestion_sections:
-            # Split into individual suggestions
-            items = re.findall(r'[-•*]\s*(.*?)(?=\n[-•*]|\Z)', section, re.DOTALL)
-            suggestions.extend([item.strip() for item in items if item.strip()])
-        
-        # If no suggestions found in structured format, try to find any sentence that looks like a suggestion
-        if not suggestions:
-            suggestion_sentences = re.findall(r'(?:should|could|recommend|suggest|improve|add|include)[^.]*\.', analysis_text, re.IGNORECASE)
-            suggestions.extend([s.strip() for s in suggestion_sentences if s.strip()])
-        
-        return suggestions
-    except:
-        return []
-
 @app.route('/')
 def index():
     return jsonify({"message": "Resume Parser API is running"})
@@ -166,15 +128,7 @@ def ats():
 
         # Get ATS analysis
         try:
-            ats_analysis = get_ats_score(data)
-            ats_score = extract_ats_score(ats_analysis)
-            suggestions = extract_suggestions(ats_analysis)
-            
-            result = {
-                "ats_score": ats_score,
-                "suggestions": suggestions
-            }
-            
+            result = get_ats_score(data)
             return jsonify(result)
         except Exception as e:
             return jsonify({
